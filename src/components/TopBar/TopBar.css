@@ -1,0 +1,15 @@
+.topbar {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+.topbar__button-prev {
+  cursor: pointer;
+  position: absolute;
+  left: 20px;
+}
+
+.topbar__title {
+}

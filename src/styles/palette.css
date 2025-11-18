@@ -1,3 +1,24 @@
 :root {
   /* 색상 변수 설정 */
+
+  /* text color */
+  --color-text: #003690;
+
+  /* main color */
+  --color-main: #3063e7;
+
+  /* sub color */
+  --color-sub: #4c7eff;
+
+  /* 안내문 color */
+  --color-info: #91abed;
+
+  /* logo-background */
+  --color-logo-background: #bacdff;
+
+  /* background color */
+  --color-background: #edf2ff;
+
+  /* white */
+  --color-white: #ffffff;
 }

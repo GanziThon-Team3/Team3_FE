@@ -1,7 +1,7 @@
 :root {
   /* 색상 변수 설정 */
 
-  /* text color */
+  /* 기본 텍스트 컬러 */
   --color-text: #003690;
 
   /* main color */
@@ -10,15 +10,39 @@
   /* sub color */
   --color-sub: #4c7eff;
 
-  /* 안내문 color */
+  /* 안내문 컬러 */
   --color-info: #91abed;
 
-  /* logo-background */
+  /* 배경 로고 컬러 */
   --color-logo-background: #bacdff;
 
-  /* background color */
+  /* 기본 배경 color */
   --color-background: #edf2ff;
 
   /* white */
   --color-white: #ffffff;
+
+  /* placeholder 컬러 */
+  --color-placeholder: #a7b2cb;
+
+  /* input 배경 컬러 */
+  --color-input: #f7f9ff;
+
+  /* 낮음 컬러 */
+  --color-good: #43c34e;
+
+  /* 낮음 어두운 컬러 */
+  --color-good-dark: #2d9936;
+
+  /* 평균 컬러 */
+  --color-normal: #f6b834;
+
+  /* 평균 어두운 컬러 */
+  --color-normal-dark: #f39005;
+
+  /* 높음 컬러 */
+  --color-bad: #f45f5f;
+
+  /* 높음 어두운 컬러 */
+  --color-bad-dark: #df3333;
 }

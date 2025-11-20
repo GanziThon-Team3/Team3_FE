@@ -3,6 +3,9 @@
   justify-content: center;
   width: 100%;
   position: relative;
+  height: 80px;
+  background-color: var(--color-background);
+  box-shadow: var(--shadow-default);
 }
 
 .topbar__button-prev {
@@ -12,4 +15,8 @@
 }
 
 .topbar__title {
+  font-family: 'Taenada', sans-serif;
+  font-size: 26px;
+  color: var(--color-text);
+  padding-top: 10px;
 }

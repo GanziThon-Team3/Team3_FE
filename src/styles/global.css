@@ -1,5 +1,6 @@
 @import './font.css';
 @import './reset.css';
+@import './palette.css';
 
 /* 불러온 폰트 정의 */
 @font-face {

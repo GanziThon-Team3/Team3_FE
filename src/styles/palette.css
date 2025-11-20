@@ -1,6 +1,9 @@
 :root {
   /* 색상 변수 설정 */
 
+  /* 그림자 */
+  --shadow-default: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+
   /* 기본 텍스트 컬러 */
   --color-text: #003690;
 

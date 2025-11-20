@@ -4,8 +4,8 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function LoadingPage() {
-  //자동으로 넘어가기
-  const LOADING_DELAY = 2000
+  // 3초 후 자동으로 페이지 넘김
+  const LOADING_DELAY = 3000
 
   const navigate = useNavigate()
 

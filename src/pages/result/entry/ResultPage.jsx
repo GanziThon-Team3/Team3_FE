@@ -26,6 +26,7 @@ function ResultPage() {
   const costPercent = formatPercent(cost.difference_percent)
   const costIntPercent = formatIntPercent(cost.difference_percent)
   const extraDaysText = formatExtra(days.avg_days, days.user_days)
+  console.log({ extraDaysText })
 
   const graphName =
     cost.level_text === '낮음'

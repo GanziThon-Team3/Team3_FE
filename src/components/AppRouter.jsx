@@ -4,7 +4,7 @@ import UploadPage from '../pages/upload/entry/UploadPage'
 import ResultPage from '../pages/result/entry/ResultPage'
 import RootLayout from './Layout/Root-layout'
 import LoadingPage from '../pages/loading/entry/LoadingPage'
-import TestPage from '../pages/loading/entry/TestPage'
+import TestPage from '../pages/result/entry/TestPage'
 
 export const AppRouter = createBrowserRouter([
   { path: '/', element: <HomePage /> },

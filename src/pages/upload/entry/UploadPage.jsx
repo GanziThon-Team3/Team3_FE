@@ -128,13 +128,12 @@ export default function UploadPage() {
           className="btn-upload-image"
           onClick={() => setShowPopup(true)}
         >
-          사진으로 등록
+          <Icon name='common-plus' width={26.72} height={28} />사진으로 등록
         </button>
 
-        <p className="info-text">
-          <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
-          사진을 추가하면 아래 내용이 자동으로 기입돼요.
-        </p>
+        
+        <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
+        <p className="info-text">사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
 
         {/* 연령 / 병원 종류 */}
         <div className="select-wrapper">
@@ -301,8 +300,9 @@ export default function UploadPage() {
         ))}
 
         <button type="button" onClick={handleAddDrug} className="btn-add-drug">
-          + 
+          +
         </button>
+        
         {error && <p className="upload-error">에러: {error}</p>}
       </div>
 

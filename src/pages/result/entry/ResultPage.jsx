@@ -1,21 +1,22 @@
 import './ResultPage.css'
 
-import { useLocation, useNavigate, useEffect, useState } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+// import {useEffect, useState}  from 'react-router-dom'
 import { Icon } from '../../../components/Icon/Icon'
 import { DrugList } from '../component/DrugList/DrugList'
 import Label from '../component/Label/Label'
 import Button from '../../../components/Button/Button'
-import api from '../../../apis/client'
+// import api from '../../../apis/client'
 import { formatExtra, formatIntPercent, formatMoney, formatPercent } from '../hooks/useFormat'
 
 function ResultPage() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const [info, setInfo] = useState(null)
-  const [loading, setLoading] = useState(true)
+  // const [info, setInfo] = useState(null)
+  // const [loading, setLoading] = useState(true)
 
   const certResult = state?.certResult
-  const certPart = state?.certPart
+  // const certPart = state?.certPart
 
   const cost = certResult.comparison_results.treatment_fee
   const days = certResult.comparison_results.treatment_days
@@ -24,27 +25,27 @@ function ResultPage() {
   // 제출 시 지우기
   console.log(certResult)
 
-  // ai api 연결
-  useEffect(() => {
-    loadResult('A062', '세파피린정')
-  }, [])
+  // // ai api 연결
+  // useEffect(() => {
+  //   loadResult('A062', '세파피린정')
+  // }, [])
 
-  async function loadResult(disease, drugName) {
-    try {
-      const body = {
-        disease,
-        drug_name: drugName,
-      }
+  // async function loadResult(disease, drugName) {
+  //   try {
+  //     const body = {
+  //       disease,
+  //       drug_name: drugName,
+  //     }
 
-      const data = await api.post('/result', body)
+  //     const data = await api.post('/result', body)
 
-      setInfo(data)
-    } catch (err) {
-      console.error('결과 API 오류:', err)
-    } finally {
-      setLoading(false)
-    }
-  }
+  //     setInfo(data)
+  //   } catch (err) {
+  //     console.error('결과 API 오류:', err)
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
   const handleClick = () => {
     navigate(`/`)

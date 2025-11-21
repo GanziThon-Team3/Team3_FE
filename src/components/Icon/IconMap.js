@@ -1,5 +1,6 @@
 import commonInfo from '../../assets/common/common-info.svg?react'
 import commonPlus from '../../assets/common/common-plus.svg?react'
+import commonSearch from '../../assets/common/common-search.svg?react'
 import graphGood from '../../assets/graph/graph-good.svg?react'
 import graphNormal from '../../assets/graph/graph-normal.svg?react'
 import graphBad from '../../assets/graph/graph-bad.svg?react'
@@ -12,6 +13,7 @@ import topbarButtonPrev from '../../assets/topbar/topbar-button-prev.svg?react'
 export const iconMap = {
   'common-info': commonInfo,
   'common-plus': commonPlus,
+  'common-search': commonSearch,
   'graph-good': graphGood,
   'graph-normal': graphNormal,
   'graph-bad': graphBad,

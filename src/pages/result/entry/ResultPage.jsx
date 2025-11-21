@@ -1,55 +1,51 @@
 import './ResultPage.css'
 
 import { useLocation, useNavigate } from 'react-router-dom'
-// import {useEffect, useState}  from 'react-router-dom'
 import { Icon } from '../../../components/Icon/Icon'
 import { DrugList } from '../component/DrugList/DrugList'
 import Label from '../component/Label/Label'
 import Button from '../../../components/Button/Button'
-// import api from '../../../apis/client'
 import { formatExtra, formatIntPercent, formatMoney, formatPercent } from '../hooks/useFormat'
+
+import { useResultApi } from '../api/useResultApi'
 
 function ResultPage() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  // const [info, setInfo] = useState(null)
-  // const [loading, setLoading] = useState(true)
-
-  const certResult = state?.certResult
-  // const certPart = state?.certPart
-
-  const cost = certResult.comparison_results.treatment_fee
-  const days = certResult.comparison_results.treatment_days
-  const drugs = certResult.comparison_results.drug_items_comparison
-
-  // 제출 시 지우기
-  console.log(certResult)
-
-  // // ai api 연결
-  // useEffect(() => {
-  //   loadResult('A062', '세파피린정')
-  // }, [])
-
-  // async function loadResult(disease, drugName) {
-  //   try {
-  //     const body = {
-  //       disease,
-  //       drug_name: drugName,
-  //     }
-
-  //     const data = await api.post('/result', body)
-
-  //     setInfo(data)
-  //   } catch (err) {
-  //     console.error('결과 API 오류:', err)
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
 
   const handleClick = () => {
     navigate(`/`)
   }
+
+  console.log(state)
+
+  console.log(state.certResult.info.drug_name)
+
+  const { info, loading, error } = useResultApi(
+    state.certResult.info.disease,
+    state.certResult.info.drug_name,
+  )
+
+  if (loading)
+    return (
+      <div className='result__loader--container'>
+        <div className='result__loader'></div>
+      </div>
+    )
+  if (error) return <div>에러 발생</div>
+
+  if (!state || !state.certResult) {
+    return (
+      <>
+        <div className='result__container'>잘못된 접근입니다.</div>
+        <Button content='홈 화면으로 가기' onClick={handleClick} />
+      </>
+    )
+  }
+
+  const cost = state.certResult.treatment_fee
+  const days = state.certResult.treatment_days
+  const drugs = state.certResult.drug_items_comparison
 
   const costPercent = formatPercent(cost.difference_percent)
   const costIntPercent = formatIntPercent(cost.difference_percent)
@@ -111,23 +107,11 @@ function ResultPage() {
         </div>
         <div className='result__info'>
           <h1 className='result__info--title'>질병 정보</h1>
-          <p className='result__info--text'>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum harum voluptatibus illum
-            quia dolores tempore officia fugiat earum numquam dignissimos, nostrum voluptate magnam
-            dolor cumque itaque possimus facilis quam explicabo?
-          </p>
+          <p className='result__info--text'>{info.disease_info}</p>
           <h1 className='result__info--title'>약물 정보</h1>
-          <p className='result__info--text'>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. A incidunt consectetur at
-            repellendus optio blanditiis, temporibus quae ipsam sapiente quaerat explicabo minus
-            doloremque ex officiis fuga enim omnis cumque distinctio.
-          </p>
+          <p className='result__info--text'>{info.drug_info}</p>
           <h1 className='result__info--title'>건강 관리</h1>
-          <p className='result__info--text'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus veniam dolorem enim
-            est, assumenda sit unde odit nulla? Debitis nesciunt nulla facere. Vitae totam doloribus
-            voluptas, dolorem nobis provident culpa.
-          </p>
+          <p className='result__info--text'>{info.health_tip}</p>
         </div>
       </div>
       <Button content='홈 화면으로 가기' onClick={handleClick} />

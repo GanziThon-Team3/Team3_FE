@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Button from '../../../components/Button/Button'; 
+import "./HomePage.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -9,20 +9,27 @@ export default function HomePage() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {/* 로고/텍스트 자리 - 디자인은 나중에 */}
-      <h1>과잉 zero</h1>
-      <p>과잉 진단은 이제 그만!</p>
+    <div className="home-container">
+      <img
+        src="../../../src/assets/logo/logo-dark.svg"
+        alt="로고"
+        className="home-logo"
+      />
+      <div className="text-wrap">
+        <div className="sub-text">
+          과잉 진단은<br />이제 그만!
+        </div>
 
-      <Button content="진단서 등록하기" onClick={goToUpload} />
+        <div className="main-title">
+          과잉zero
+        </div>
+      </div>
+
+      <div className="btn-wrap">
+        <button className="go-btn" onClick={goToUpload}>
+          과잉 제로 바로 가기
+        </button>
+      </div>
     </div>
   );
 }

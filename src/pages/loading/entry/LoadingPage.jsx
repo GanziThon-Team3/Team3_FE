@@ -10,7 +10,9 @@ function LoadingPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const certResult = location.state?.certResult
+  const certResult = location.state?.comparison_results
+  // 지우기
+  console.log(certResult)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,7 +25,7 @@ function LoadingPage() {
   return (
     <div className='loading__container'>
       <div className='loading__loader--container'>
-        <div class='loading__loader'></div>
+        <div className='loading__loader'></div>
       </div>
       <div className='loading__text'>
         <p className='loading__text--AI'>AI가 분석하고 있어요</p>

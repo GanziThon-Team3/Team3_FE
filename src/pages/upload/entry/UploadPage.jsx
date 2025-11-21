@@ -72,13 +72,6 @@ export default function UploadPage() {
     }));
   };
 
-  // 약 행 삭제
-  const handleRemoveDrug = (index) => {
-    setForm((prev) => ({
-      ...prev,
-      drug_items: prev.drug_items.filter((_, i) => i !== index),
-    }));
-  };
 
   // 제출
   const handleSubmit = async (e) => {
@@ -135,7 +128,7 @@ export default function UploadPage() {
           className="btn-upload-image"
           onClick={() => setShowPopup(true)}
         >
-          + 사진으로 등록
+          사진으로 등록
         </button>
 
         <p className="info-text">

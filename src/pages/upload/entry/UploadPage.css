@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 420px;
+    max-width: 402px;
     margin: 0 auto;
 }
 
@@ -24,24 +24,12 @@
     /* 아래 버튼과 겹치지 않게 약간 패딩 */
 }
 
-.submit-button-fixed {
-    flex-shrink: 0;
-    background-color: var(--color-background);
-    box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.08);
-}
-
 .submit-button-fixed button {
     width: 100%;
-    height: 56px;
-    border-radius: 999px;
-    font-size: 18px;
+    height: 66px;
+    font-size: 24px;
     font-weight: 700;
-}
-
-.upload-page-scroll label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 8px;
+    max-width: 372px;
 }
 
 .btn-upload-image {
@@ -52,7 +40,7 @@
     margin-bottom: 8px;
     background: var(--color-sub);
     color: var(--color-background);
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 500;
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
     display: flex;

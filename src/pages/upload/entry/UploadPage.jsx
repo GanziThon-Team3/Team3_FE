@@ -68,8 +68,10 @@ export default function UploadPage() {
           user_days: '',
         },
       ],
-    }))
-  }
+    }));
+  };
+
+
 
   // 제출
   const handleSubmit = async (e) => {
@@ -116,29 +118,23 @@ export default function UploadPage() {
   }
 
   return (
-    <div className='upload-page-container'>
-      <form onSubmit={handleSubmit} className='upload-page-form'>
-        {/* 중간: 스크롤 되는 부분 */}
-        <div className='upload-page-scroll'>
-          <button type='button' className='btn-upload-image' onClick={() => setShowPopup(true)}>
-            + 사진으로 등록
-          </button>
 
-          <p className='info-text'>
-            <Icon name='common-info' width={11.3} height={11.3} className='common-info' />
-            사진을 추가하면 아래 내용이 자동으로 기입돼요.
-          </p>
+  <div className="upload-page-container">
+    <form onSubmit={handleSubmit} className="upload-page-form">
+      {/* 중간: 스크롤 되는 부분 */}
+      <div className="upload-page-scroll">
+        <button
+          type="button"
+          className="btn-upload-image"
+          onClick={() => setShowPopup(true)}
+        >
+          <Icon name='common-plus' width={26.72} height={28} />사진으로 등록
+        </button>
 
-          {/* 연령 / 병원 종류 */}
-          <div className='select-wrapper'>
-            <span className='select-label'>연령</span>
-            <select name='age_group' className='select-age' required>
-              <option value=''>연령을 선택해주세요</option>
-              <option value='소아'>20세 미만</option>
-              <option value='성인'>20세 이상 ~ 65세 미만</option>
-              <option value='노인'>65세 이상</option>
-            </select>
-          </div>
+        
+        <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
+        <p className="info-text">사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
+  
 
           <div className='select-wrapper'>
             <span className='select-label'>병원 종류</span>
@@ -277,7 +273,23 @@ export default function UploadPage() {
                 </div>
               </div>
             </div>
-          ))}
+
+          </div>
+        ))}
+
+        <button type="button" onClick={handleAddDrug} className="btn-add-drug">
+          +
+        </button>
+        
+        {error && <p className="upload-error">에러: {error}</p>}
+      </div>
+
+      {/* 제출 버튼 */}
+      <div className="submit-button-fixed">
+        <Button content="결과 보기" onClick={handleSubmit} />
+      </div>
+    </form>
+
 
           <button type='button' onClick={handleAddDrug} className='btn-add-drug'>
             +

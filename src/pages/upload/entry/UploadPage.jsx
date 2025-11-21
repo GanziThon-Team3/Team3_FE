@@ -3,6 +3,7 @@ import { postCompare } from "../../../apis/compare";
 import { useNavigate } from 'react-router-dom'
 import Button from '../../../components/Button/Button'; 
 import "./UploadPage.css";
+import { Icon } from '../../../components/Icon/Icon';
 
 const initialForm = {
   dept: "",
@@ -23,7 +24,6 @@ const initialForm = {
 
 export default function UploadPage() {
   const [form, setForm] = useState(initialForm);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false); // 사진으로 추가 팝업
@@ -83,7 +83,6 @@ export default function UploadPage() {
   // 제출
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
     
@@ -123,8 +122,6 @@ export default function UploadPage() {
     } catch (err) {
       console.error(err);
       setError("서버 요청 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -142,6 +139,7 @@ export default function UploadPage() {
         </button>
 
         <p className="info-text">
+          <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
           사진을 추가하면 아래 내용이 자동으로 기입돼요.
         </p>
 
@@ -203,6 +201,7 @@ export default function UploadPage() {
         </div>
 
         <p className="info-text">
+          <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
           공휴일과 야간은 진찰료/조제료 30% 추가 금액이 붙어요.
         </p>
 
@@ -316,7 +315,7 @@ export default function UploadPage() {
 
       {/* 제출 버튼 */}
       <div className="submit-button-fixed">
-        <Button content="결과보기" onClick={handleSubmit} />
+        <Button content="결과 보기" onClick={handleSubmit} />
       </div>
     </form>
 

@@ -76,7 +76,7 @@ function ResultPage() {
         <div className='result__error'>
           에러 발생 :(
           <br />
-          새로고침해주세요
+          새로고침 해주세요!
         </div>
       </div>
     )

@@ -1,0 +1,18 @@
+.notfound__container {
+  overflow-y: scroll;
+  height: 100%;
+  padding: 35px 24px 70px;
+  position: relative;
+}
+
+.notfound__error {
+  display: flex;
+  width: 100%;
+  height: 75%;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Taenada', sans-serif;
+  font-size: 22px;
+  text-align: center;
+  color: var(--color-main);
+}

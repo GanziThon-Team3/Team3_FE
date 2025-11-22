@@ -74,7 +74,6 @@ export default function UploadPage() {
   useEffect(() => {
     const q = diseaseQuery.trim()
 
-    // 한 글자 이하면 검색 안 함 → 옵션 비우기
     if (!q || q.length < 2) {
       setDiseaseOptions([])
       return
@@ -90,7 +89,20 @@ export default function UploadPage() {
         const list = await searchDiseases(q)
 
         if (!cancelled) {
-          setDiseaseOptions(list || [])
+          // ✅ 결과가 1개면 자동 선택 + 리스트는 숨김
+          if (list && list.length === 1) {
+            const only = list[0]
+
+            setForm((prev) => ({
+              ...prev,
+              disease: only.code,          // 코드만 저장
+            }))
+            setDiseaseQuery(`${only.code} - ${only.name}`) // 인풋에 "코드 - 이름" 표시
+            setDiseaseOptions([])         // select 안 보이게
+          } else {
+            // 결과가 여러 개일 때만 select 띄움
+            setDiseaseOptions(list || [])
+          }
         }
       } catch (err) {
         console.error(err)
@@ -110,6 +122,7 @@ export default function UploadPage() {
       clearTimeout(timer)
     }
   }, [diseaseQuery])
+
   // 코드선택시
   const handleDiseaseSelect = (e) => {
     const selectedCode = e.target.value
@@ -274,7 +287,7 @@ export default function UploadPage() {
             <input
               value={diseaseQuery}
               onChange={handleDiseaseInputChange}
-              placeholder='질병명을 입력하면 자동으로 검색돼요 (eg. 비염)'
+              placeholder='질병명을 입력하면 자동으로 검색돼요. (eg. 비염)'
               className='disease-input'
             />
 

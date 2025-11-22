@@ -68,10 +68,8 @@ export default function UploadPage() {
           user_days: '',
         },
       ],
-    }));
-  };
-
-
+    }))
+  }
 
   // 제출
   const handleSubmit = async (e) => {
@@ -118,27 +116,27 @@ export default function UploadPage() {
   }
 
   return (
+    <div className='upload-page-container'>
+      <form onSubmit={handleSubmit} className='upload-page-form'>
+        {/* 중간: 스크롤 되는 부분 */}
+        <div className='upload-page-scroll'>
+          <button type='button' className='btn-upload-image' onClick={() => setShowPopup(true)}>
+            <Icon name='common-plus' width={26.72} height={28} />
+            사진으로 등록
+          </button>
 
-  <div className="upload-page-container">
-    <form onSubmit={handleSubmit} className="upload-page-form">
-      {/* 중간: 스크롤 되는 부분 */}
-      <div className="upload-page-scroll">
-        <button
-          type="button"
-          className="btn-upload-image"
-          onClick={() => setShowPopup(true)}
-        >
-          <Icon name='common-plus' width={26.72} height={28} />사진으로 등록
-        </button>
-
-        
-        <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
-        <p className="info-text">사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
-  
+          <Icon name='common-info' width={11.3} height={11.3} className='common-info' />
+          <p className='info-text'>사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
 
           <div className='select-wrapper'>
             <span className='select-label'>병원 종류</span>
-            <select name='dept' className='select-dept' required>
+            <select
+              name='dept'
+              className='select-dept'
+              required
+              value={form.dept}
+              onChange={handleChange}
+            >
               <option value=''>진료 과목을 선택해주세요</option>
               <option value='일반의'>일반의</option>
               <option value='내과'>내과</option>
@@ -273,27 +271,12 @@ export default function UploadPage() {
                 </div>
               </div>
             </div>
-
-          </div>
-        ))}
-
-        <button type="button" onClick={handleAddDrug} className="btn-add-drug">
-          +
-        </button>
-        
-        {error && <p className="upload-error">에러: {error}</p>}
-      </div>
-
-      {/* 제출 버튼 */}
-      <div className="submit-button-fixed">
-        <Button content="결과 보기" onClick={handleSubmit} />
-      </div>
-    </form>
-
+          ))}
 
           <button type='button' onClick={handleAddDrug} className='btn-add-drug'>
             +
           </button>
+
           {error && <p className='upload-error'>에러: {error}</p>}
         </div>
 

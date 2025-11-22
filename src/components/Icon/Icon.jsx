@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { iconMap } from './iconMap'
+import { iconMap } from './IconMap'
 
 export const Icon = ({ name, width, height, className = '', ...props }) => {
   const SvgIcon = iconMap[name]

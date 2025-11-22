@@ -8,6 +8,7 @@ import labelGood from '../../assets/label/label-good.svg?react'
 import labelNormal from '../../assets/label/label-normal.svg?react'
 import labelBad from '../../assets/label/label-bad.svg?react'
 import logoBackgroundLight from '../../assets/logo/logo-background-light.svg?react'
+import logoDark from '../../assets/logo/logo-dark.svg?react'
 import topbarButtonPrev from '../../assets/topbar/topbar-button-prev.svg?react'
 
 export const iconMap = {
@@ -21,5 +22,6 @@ export const iconMap = {
   'label-normal': labelNormal,
   'label-bad': labelBad,
   'logo-background-light': logoBackgroundLight,
+  'logo-dark': logoDark,
   'topbar-button-prev': topbarButtonPrev,
 }

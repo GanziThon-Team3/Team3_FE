@@ -1,14 +1,17 @@
-import { useState } from 'react'
+// UploadPage.jsx
+
+import { useState, useEffect } from 'react'
 import { postCompare } from '../../../apis/compare'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../../components/Button/Button'
 import './UploadPage.css'
 import { Icon } from '../../../components/Icon/Icon'
+import { searchDiseases } from '../../../apis/disease'
 
 const initialForm = {
   dept: '',
   age_group: '',
-  disease: '',
+  disease: '',   // 선택된 질병 코드
   user_fee: '',
   is_saturday: false,
   is_night: false,
@@ -26,9 +29,15 @@ export default function UploadPage() {
   const [form, setForm] = useState(initialForm)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
-  const [showPopup, setShowPopup] = useState(false) // 사진으로 추가 팝업
+  const [showPopup, setShowPopup] = useState(false)
 
-  // 공통 인풋 변경, 인풋 형식 바뀌면 값 저장 법도 바꿔주기
+  // 🔍 질병 검색 관련 상태
+  const [diseaseQuery, setDiseaseQuery] = useState('')        // 인풋에 보이는 텍스트
+  const [diseaseOptions, setDiseaseOptions] = useState([])    // 검색 결과 리스트
+  const [isDiseaseLoading, setIsDiseaseLoading] = useState(false)
+  const [diseaseSearchError, setDiseaseSearchError] = useState(null)
+
+  // 공통 인풋 변경
   const handleChange = (e) => {
     let { name, value, type, checked } = e.target
 
@@ -42,7 +51,7 @@ export default function UploadPage() {
     }))
   }
 
-  // drug_items 변경, 약 전용 저장핸들러
+  // 약 정보 변경
   const handleDrugChange = (index, e) => {
     const { name, value } = e.target
     setForm((prev) => {
@@ -53,6 +62,66 @@ export default function UploadPage() {
       }
       return { ...prev, drug_items: newDrugItems }
     })
+  }
+
+  // 🔍 질병 검색 인풋 변경 (여기서는 값만 세팅)
+  const handleDiseaseInputChange = (e) => {
+    const value = e.target.value
+    setDiseaseQuery(value)
+    setDiseaseSearchError(null)
+  }
+
+  useEffect(() => {
+    const q = diseaseQuery.trim()
+
+    // 한 글자 이하면 검색 안 함 → 옵션 비우기
+    if (!q || q.length < 2) {
+      setDiseaseOptions([])
+      return
+    }
+
+    let cancelled = false
+
+    const timer = setTimeout(async () => {
+      setIsDiseaseLoading(true)
+      setDiseaseSearchError(null)
+
+      try {
+        const list = await searchDiseases(q)
+
+        if (!cancelled) {
+          setDiseaseOptions(list || [])
+        }
+      } catch (err) {
+        console.error(err)
+        if (!cancelled) {
+          setDiseaseOptions([])
+          setDiseaseSearchError('질병 검색 중 오류가 발생했어요.')
+        }
+      } finally {
+        if (!cancelled) {
+          setIsDiseaseLoading(false)
+        }
+      }
+    }, 300)
+
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [diseaseQuery])
+  // 코드선택시
+  const handleDiseaseSelect = (e) => {
+    const selectedCode = e.target.value
+    const selected = diseaseOptions.find((item) => item.code === selectedCode)
+
+    if (selected) {
+      setForm((prev) => ({
+        ...prev,
+        disease: selected.code, // 코드만 보내기
+      }))
+      setDiseaseQuery(`${selected.code} - ${selected.name}`)
+    }
   }
 
   // 약 행 추가
@@ -68,25 +137,23 @@ export default function UploadPage() {
           user_days: '',
         },
       ],
-    }));
-  };
-
+    }))
+  }
 
   // 제출
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
 
-    // 숫자/boolean 형 변환
     const payload = {
       dept: form.dept,
       age_group: form.age_group,
-      disease: form.disease,
+      disease: form.disease,   // ✅ 선택된 코드만 전송
       user_fee: Number(form.user_fee),
       is_saturday: form.is_saturday,
       is_night: form.is_night,
       drug_items: form.drug_items
-        .filter((item) => item.drug_name.trim() !== '') // 비어있으면 제외
+        .filter((item) => item.drug_name.trim() !== '')
         .map((item) => ({
           drug_name: item.drug_name,
           user_once_dose: Number(item.user_once_dose),
@@ -97,22 +164,18 @@ export default function UploadPage() {
     console.log('생성된 payload:', payload)
 
     try {
-      // 2) 백엔드에 보내고 응답 받기
       const data = await postCompare(payload)
       console.log('백엔드 응답:', data)
 
-      // data = { comparison_results: { ... } } 형태
       const { comparison_results } = data
 
-      // 3) 현지님(ResultPage)에 comparison_results 넘기기
       navigate('/loading', {
         state: {
-          comparison_results,             // 기존 값
-          disease: form.disease,          // 추가 1
-          drug_name: form.drug_items?.[0]?.drug_name,    // 추가 2
+          comparison_results,
+          disease: form.disease,
+          drug_name: form.drug_items?.[0]?.drug_name,
         },
-      });
-
+      })
     } catch (err) {
       console.error(err)
       setError('서버 요청 중 오류가 발생했습니다.')
@@ -120,21 +183,20 @@ export default function UploadPage() {
   }
 
   return (
-  <div className="upload-page-container">
-    <form onSubmit={handleSubmit} className="upload-page-form">
-      {/* 중간: 스크롤 되는 부분 */}
-      <div className="upload-page-scroll">
-        <button
-          type="button"
-          className="btn-upload-image"
-          onClick={() => setShowPopup(true)}
-        >
-          <Icon name='common-plus' width={26.72} height={28} />사진으로 등록
-        </button>
+    <div className="upload-page-container">
+      <form onSubmit={handleSubmit} className="upload-page-form">
+        {/* 중간: 스크롤 되는 부분 */}
+        <div className="upload-page-scroll">
+          <button
+            type="button"
+            className="btn-upload-image"
+            onClick={() => setShowPopup(true)}
+          >
+            <Icon name='common-plus' width={26.72} height={28} />사진으로 등록
+          </button>
 
-        
-        <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
-        <p className="info-text">사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
+          <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
+          <p className="info-text">사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
 
           {/* 연령 / 병원 종류 */}
           <div className='select-wrapper'>
@@ -202,30 +264,45 @@ export default function UploadPage() {
             공휴일과 야간은 진찰료/조제료 30% 추가 금액이 붙어요.
           </p>
 
-          {/* 질병 코드 */}
+          {/* 🔍 질병 코드 + 자동 검색 */}
           <div className='disease-section'>
             <div className='disease-header'>
               <label className='disease-label'>질병 코드</label>
-
-              {/* 오른쪽 링크 버튼 */}
-              <a
-                href='https://www.koicd.kr/mobile/kcd/list.do' // 원하는 질병코드 사이트로 수정!
-                target='_blank'
-                rel='noopener noreferrer'
-                className='disease-link-button'
-              >
-                질병코드 검색 사이트 이동
-              </a>
             </div>
 
-            {/* input 박스 */}
+            {/* 검색 인풋 */}
             <input
-              name='disease'
-              value={form.disease}
-              onChange={handleChange}
-              placeholder='질병 코드를 입력해주세요 (eg. A062)'
+              value={diseaseQuery}
+              onChange={handleDiseaseInputChange}
+              placeholder='질병명을 입력하면 자동으로 검색돼요 (eg. 비염)'
               className='disease-input'
             />
+
+            {/* 로딩 표시 */}
+            {isDiseaseLoading && (
+              <p className='disease-helper-text'>질병을 검색하는 중이에요...</p>
+            )}
+
+            {/* 에러 메시지 */}
+            {diseaseSearchError && (
+              <p className='disease-error-text'>{diseaseSearchError}</p>
+            )}
+
+            {/* 검색 결과 select (있을 때만) */}
+            {diseaseOptions.length > 0 && (
+              <select
+                className='disease-select disease-select-list'
+                size={Math.min(5, diseaseOptions.length)}
+                onChange={handleDiseaseSelect}
+              >
+                <option value='' className='disease-select-option'>질병을 선택해주세요</option>
+                {diseaseOptions.map((item) => (
+                  <option key={item.code} value={item.code} className='disease-select-option'>
+                    {item.code} - {item.name}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           {/* 본인부담금 */}
@@ -246,9 +323,7 @@ export default function UploadPage() {
           <label className='drug-text'>처방 약물</label>
           {form.drug_items.map((drug, index) => (
             <div key={index} className='drug-card'>
-              {/* 가로 정렬 */}
               <div className='drug-row'>
-                {/* 약품명 */}
                 <div className='drug-col-name'>
                   <input
                     name='drug_name'
@@ -259,7 +334,6 @@ export default function UploadPage() {
                   />
                 </div>
 
-                {/* 1회 투약량 */}
                 <div className='drug-col-dose'>
                   <input
                     type='number'
@@ -271,7 +345,6 @@ export default function UploadPage() {
                   />
                 </div>
 
-                {/* 1일 투약 횟수 */}
                 <div className='drug-col-times'>
                   <input
                     type='number'
@@ -283,7 +356,6 @@ export default function UploadPage() {
                   />
                 </div>
 
-                {/* 투약 일수 */}
                 <div className='drug-col-days'>
                   <input
                     type='number'
@@ -296,7 +368,6 @@ export default function UploadPage() {
                 </div>
               </div>
             </div>
-
           ))}
 
           <button type='button' onClick={handleAddDrug} className='btn-add-drug'>

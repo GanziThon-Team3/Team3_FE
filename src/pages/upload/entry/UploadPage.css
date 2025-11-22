@@ -169,17 +169,6 @@
     color: var(--color-text);
 }
 
-.disease-link-button {
-    background-color: var(--color-sub);
-    color: var(--color-background);
-    padding: 2px 27px 3px 27px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 700;
-    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
-}
-
 .disease-input {
     width: 100%;
     padding: 13px 19.08px 11px 19.08px;
@@ -196,6 +185,41 @@
     color: var(--color-placeholder);
     font-weight: 400;
 
+}
+
+.disease-select-list {
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: none;
+    background: var(--color-input);
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    padding-left: 6px;
+    font-size: 14px;
+    color: var(--color-placeholder);
+    outline: none;
+    overflow-y: auto;
+}
+
+.disease-select-option {
+    font-family: 'Paperozi', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 3px;
+    color: var(--color-placeholder);
+}
+
+.disease-select-option:hover {
+    background-color: var(--color-main);
+    color: var(--color-input);
+}
+
+.disease-selected-box {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: #f8faff;
+    border: 1px solid #d6e2ff;
+    border-radius: 10px;
 }
 
 /* === 본인부담금 섹션 === */

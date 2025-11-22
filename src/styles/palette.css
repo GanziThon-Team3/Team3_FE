@@ -4,6 +4,8 @@
   /* 기본 그림자 */
   --shadow-default: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
 
+  --shadow-label: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+
   /* 버튼 그림자 */
   --shadow-button: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
 

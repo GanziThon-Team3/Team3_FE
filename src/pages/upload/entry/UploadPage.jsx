@@ -68,8 +68,9 @@ export default function UploadPage() {
           user_days: '',
         },
       ],
-    }))
-  }
+    }));
+  };
+
 
   // 제출
   const handleSubmit = async (e) => {
@@ -82,8 +83,8 @@ export default function UploadPage() {
       age_group: form.age_group,
       disease: form.disease,
       user_fee: Number(form.user_fee),
-      is_saturday: Boolean(form.is_saturday),
-      is_night: Boolean(form.is_night),
+      is_saturday: form.is_saturday,
+      is_night: form.is_night,
       drug_items: form.drug_items
         .filter((item) => item.drug_name.trim() !== '') // 비어있으면 제외
         .map((item) => ({
@@ -104,11 +105,14 @@ export default function UploadPage() {
       const { comparison_results } = data
 
       // 3) 현지님(ResultPage)에 comparison_results 넘기기
-      navigate(`/loading`, {
+      navigate('/loading', {
         state: {
-          comparison_results, // 이 안에 treatment_fee, treatment_days, drug_items_comparison 다 있음
+          comparison_results,             // 기존 값
+          disease: form.disease,          // 추가 1
+          drug_name: form.drug_items?.[0]?.drug_name,    // 추가 2
         },
-      })
+      });
+
     } catch (err) {
       console.error(err)
       setError('서버 요청 중 오류가 발생했습니다.')
@@ -116,26 +120,47 @@ export default function UploadPage() {
   }
 
   return (
-    <div className='upload-page-container'>
-      <form onSubmit={handleSubmit} className='upload-page-form'>
-        {/* 중간: 스크롤 되는 부분 */}
-        <div className='upload-page-scroll'>
-          <button type='button' className='btn-upload-image' onClick={() => setShowPopup(true)}>
-            <Icon name='common-plus' width={26.72} height={28} />
-            사진으로 등록
-          </button>
+  <div className="upload-page-container">
+    <form onSubmit={handleSubmit} className="upload-page-form">
+      {/* 중간: 스크롤 되는 부분 */}
+      <div className="upload-page-scroll">
+        <button
+          type="button"
+          className="btn-upload-image"
+          onClick={() => setShowPopup(true)}
+        >
+          <Icon name='common-plus' width={26.72} height={28} />사진으로 등록
+        </button>
 
-          <Icon name='common-info' width={11.3} height={11.3} className='common-info' />
-          <p className='info-text'>사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
+        
+        <Icon name="common-info" width={11.3} height={11.3} className="common-info" />
+        <p className="info-text">사진을 추가하면 아래 내용이 자동으로 기입돼요.</p>
+
+          {/* 연령 / 병원 종류 */}
+          <div className='select-wrapper'>
+            <span className='select-label'>연령</span>
+            <select
+              name='age_group'
+              className='select-age'
+              value={form.age_group}
+              onChange={handleChange}
+              required
+            >
+              <option value=''>연령을 선택해주세요</option>
+              <option value='소아'>20세 미만</option>
+              <option value='성인'>20세 이상 ~ 65세 미만</option>
+              <option value='노인'>65세 이상</option>
+            </select>
+          </div>
 
           <div className='select-wrapper'>
             <span className='select-label'>병원 종류</span>
             <select
               name='dept'
               className='select-dept'
-              required
               value={form.dept}
               onChange={handleChange}
+              required
             >
               <option value=''>진료 과목을 선택해주세요</option>
               <option value='일반의'>일반의</option>
@@ -271,18 +296,18 @@ export default function UploadPage() {
                 </div>
               </div>
             </div>
+
           ))}
 
           <button type='button' onClick={handleAddDrug} className='btn-add-drug'>
             +
           </button>
-
           {error && <p className='upload-error'>에러: {error}</p>}
         </div>
 
         {/* 제출 버튼 */}
         <div className='submit-button-fixed'>
-          <Button content='결과 보기' onClick={handleSubmit} />
+          <Button content='결과 보기' type='submit' />
         </div>
       </form>
 

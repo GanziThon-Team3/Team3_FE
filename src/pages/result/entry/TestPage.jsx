@@ -6,11 +6,9 @@ function TestPage() {
   const handleClick = () => {
     navigate(`/loading`, {
       state: {
+        disease: 'A062',
+        drug_name: '세파피린정',
         comparison_results: {
-          info: {
-            disease: 'A062',
-            drug_name: '세파피린정',
-          },
           treatment_fee: {
             sample_count: 16,
             avg_fee: 22629,

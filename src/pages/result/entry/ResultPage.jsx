@@ -76,8 +76,9 @@ function ResultPage() {
         <div className='result__error'>
           에러 발생 :(
           <br />
-          새로고침 해주세요!
+          처음부터 다시해주세요!
         </div>
+        <Button content='홈 화면으로 가기' onClick={handleClick} />
       </div>
     )
 

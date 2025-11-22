@@ -5,4 +5,11 @@ import svgr from 'vite-plugin-svgr'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
+  build: {
+    chunkSizeWarningLimit: 1600,
+    manifest: true,
+    rollupOptions: {
+      input: 'src/main.jsx',
+    },
+  },
 })

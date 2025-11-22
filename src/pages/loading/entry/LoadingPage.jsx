@@ -10,7 +10,7 @@ function LoadingPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const certResult = location.state?.comparison_results
+  const certResult = location.state
   // 지우기
   console.log(certResult)
 

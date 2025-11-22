@@ -60,8 +60,8 @@ function ResultPage() {
 
   // 빨간줄 무시해도 됩니댜. 뭐 규칙 때문이라 작동엔 상관ㄴㄴ
   const { info, loading, error } = useResultApi(
-    state.certResult.info.disease,
-    state.certResult.info.drug_name,
+    state.certResult.disease,
+    state.certResult.drug_name,
   )
 
   if (loading)
@@ -81,9 +81,9 @@ function ResultPage() {
       </div>
     )
 
-  const cost = state.certResult.treatment_fee
-  const days = state.certResult.treatment_days
-  const drugs = state.certResult.drug_items_comparison
+  const cost = state.certResult.comparison_results.treatment_fee
+  const days = state.certResult.comparison_results.treatment_days
+  const drugs = state.certResult.comparison_results.drug_items_comparison
 
   const costPercent = formatPercent(cost.difference_percent)
   const costIntPercent = formatIntPercent(cost.difference_percent)
